@@ -7,7 +7,7 @@ import Footer from './Pages/Shared/Footer';
 import Login from './Pages/Login/Login';
 function App() {
   return (
-    <div className="App">
+    <div className="">
       <Navbar></Navbar>
       <Routes>
         <Route path="/" element={<Home></Home>} />
