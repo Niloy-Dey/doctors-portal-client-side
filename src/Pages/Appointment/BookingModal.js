@@ -2,6 +2,7 @@ import React from 'react';
 import format from 'date-fns/format';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import auth from '../../firebase.init';
+import { toast } from 'react-toastify';
 const BookingModal = ({ treatment, date , setTreatment}) => {
 
     const [user, loading, error] = useAuthState(auth);
@@ -10,7 +11,7 @@ const BookingModal = ({ treatment, date , setTreatment}) => {
 
     const formattedDate = format(date, 'PP');
 
-    const handleBooking = (event)=> {
+    const handleBooking = event => {
         event.preventDefault();
         const slot = event.target.slot.value;
         console.log(slot);
@@ -22,7 +23,7 @@ const BookingModal = ({ treatment, date , setTreatment}) => {
             slot,
             patient: user.email,
             patientName: user.displayName,
-            phone: event.target.phone.value
+            phone: event.target.phone.value,
         }
 
 
@@ -36,9 +37,11 @@ const BookingModal = ({ treatment, date , setTreatment}) => {
         .then(res =>res.json())
         .then(data => {
             console.log(data);
+            // To close the modal
+            setTreatment(null);
         })
-        // To close the modal 
-        setTreatment(null);
+         
+        
     }
     return (
         <div>
@@ -54,9 +57,9 @@ const BookingModal = ({ treatment, date , setTreatment}) => {
                                 slots.map((slot, index) => <option  key={index} value={slot}>{slot}</option>)
                             }
                         </select>
-                        <input type="text" disabled value={user?.displayName || ''} className=" my-1 input input-bordered input-accent w-full max-w-xs" />
-                        <input type="email" disabled value={user?.email} className=" my-1 input input-bordered input-accent w-full max-w-xs" />
-                        <input type="text" placeholder="Your Phone" className=" my-1 input input-bordered input-accent w-full max-w-xs" />
+                        <input type="text" name="name" disabled value={user?.displayName || ''} className=" my-1 input input-bordered input-accent w-full max-w-xs" />
+                        <input type="email" name='email' disabled value={user?.email} className=" my-1 input input-bordered input-accent w-full max-w-xs" />
+                        <input type="text" name='phone' placeholder="Your Phone" className=" my-1 input input-bordered input-accent w-full max-w-xs" />
                         <input type="submit" value="submit" className=" my-1 btn  bg-secondary text-white text-xl  w-full max-w-xs" />
                     </form>
                 </div>

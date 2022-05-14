@@ -8,6 +8,7 @@ import ContractUs from './Pages/Home/ContractUs';
 import Appointment from './Pages/Appointment/Appointment';
 import SignUp from './Pages/SignUp/SignUp';
 import RequireAuth from './Pages/RequireAuth/RequireAuth';
+import { ToastContainer } from 'react-toastify';
 function App() {
   return (
     <div className="">
@@ -26,7 +27,7 @@ function App() {
         }></Route>
         <Route path='/review' ></Route>
       </Routes>
-     
+     <ToastContainer></ToastContainer>
     </div>
   );
 }
