@@ -3,6 +3,7 @@ import { useCreateUserWithEmailAndPassword, useSignInWithGoogle, useUpdateProfil
 import { useForm } from 'react-hook-form';
 import { Link,useNavigate } from 'react-router-dom';
 import auth from '../../firebase.init';
+import useToken from '../../hooks/useToken';
 import Loading from '../Shared/Loading';
 
 const SignUp = () => {
@@ -21,9 +22,12 @@ const SignUp = () => {
     /* Updating profile */
     const [updateProfile, updating, UpdatingError] = useUpdateProfile(auth);
 
+    const [token ] = useToken(user || gUser);
+    
     /* showing user in login */
-    if (user || gUser) {
-        console.log(user, gUser);
+    if (token) {
+        // console.log(user, gUser);
+        navigate('/appointment');
     }
     let signInError ;
     

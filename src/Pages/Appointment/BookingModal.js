@@ -3,11 +3,13 @@ import format from 'date-fns/format';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import auth from '../../firebase.init';
 import { toast } from 'react-toastify';
-const BookingModal = ({ treatment, date , setTreatment}) => {
+
+const BookingModal = ({ treatment, date , setTreatment, refetch}) => {
 
     const [user, loading, error] = useAuthState(auth);
 
-    const { _id,  name, slots } = treatment;
+    const { _id,  name, slots, price, patientName } = treatment;
+    console.log(user?.displayName);
 
     const formattedDate = format(date, 'PP');
 
@@ -19,8 +21,9 @@ const BookingModal = ({ treatment, date , setTreatment}) => {
        const booking =   {
             treatmentId: _id,
             treatment: name,
-            data:formattedDate,
+            date:formattedDate,
             slot,
+            price: price,
             patient: user.email,
             patientName: user.displayName,
             phone: event.target.phone.value,
@@ -36,7 +39,14 @@ const BookingModal = ({ treatment, date , setTreatment}) => {
         })
         .then(res =>res.json())
         .then(data => {
-            console.log(data);
+            // console.log(data);
+            if(data.success){
+                toast(`Appointment is set , ${formattedDate} at ${slot}` );
+            }
+            else{
+                toast.error(`You all ready have an appointment , ${data.booking?.date} at ${data.booking?.slot}` );
+            }
+            refetch();
             // To close the modal
             setTreatment(null);
         })
