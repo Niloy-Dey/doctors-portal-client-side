@@ -12,7 +12,7 @@ const CheckoutForm = ({ booking }) => {
     const {price, _id, patientName, patient  }  = booking;
     // console.log(price, _id, patientName, patient);
     useEffect(() => {
-        fetch('http://localhost:5000/create-payment-intent', {
+        fetch('https://doctors-portal-n.herokuapp.com/create-payment-intent', {
             method: 'POST',
             headers: {
                 'content-type': 'application/json',
@@ -82,7 +82,7 @@ const CheckoutForm = ({ booking }) => {
                 transactionId: paymentIntent.id,
                 email: patient
             }
-            fetch(`http://localhost:5000/booking/${_id}`, {
+            fetch(`https://doctors-portal-n.herokuapp.com/booking/${_id}`, {
                 method: 'PATCH',
                 headers: {
                     'content-type': 'application/json',
